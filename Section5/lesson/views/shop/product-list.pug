@@ -17,8 +17,9 @@ block content
                             h2.product__price $#{product.price}
                             p.product__description #{product.description}
                         .card__actions
-                            form(action='/add-to-card', method='POST')
-                                button.btn Add to Cart
+                            a.btn(href=`/products/${product.id}`) Details
+                            - locals.product = product
+                            include ../includes/addToCart.pug
         else
             h1 No Products
 
