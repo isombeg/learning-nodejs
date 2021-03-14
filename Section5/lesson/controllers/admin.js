@@ -10,6 +10,7 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
     const product = new Product(
+        null,
         req.body.title,
         req.body.imageUrl,
         req.body.description,
@@ -39,7 +40,25 @@ exports.getEditProduct = (req, res, next) => {
     })
 }
 
-exports.getProduct = (req, res, next) => {
+exports.postEditProduct = (req, res, next) => {
+    console.log(req.body);
+    const prodId = req.body.productId;
+    const updatedTitle = req.body.title;
+    const updatedPrice = req.body.price;
+    const updatedImageUrl = req.body.imageUrl;
+    const updatedDesc = req.body.description;
+    const updatedProduct = new Product(prodId, updatedTitle, updatedImageUrl, updatedDesc, updatedPrice);
+    updatedProduct.save();
+    res.redirect('/products');
+}
+
+exports.postDeleteProduct = (req, res, next) => {
+    const prodId = req.body.productId;
+    Product.deleteById(prodId);
+    res.redirect('/products');
+}
+
+exports.getProducts = (req, res, next) => {
     Product.fetchAll(products => {
         res.render('admin/products', {
             prods: products,
